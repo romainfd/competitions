@@ -10,8 +10,6 @@ for _ in range(q):
     for j in range(end):
         c *= k - j
         c //= j + 1
-        print(c)
         if c & 1:
-            print("ok")
             s ^= A[x + j + 1]
     print(s)
