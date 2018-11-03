@@ -1,23 +1,17 @@
-import numpy as np
-
-aux = list(map(int, str.split(input())))
-n = aux[0]
-q = aux[1]
-
+n, q = map(int, str.split(input()))
 A = list((map(int, str.split(input()))))
 
 for _ in range(q):
-    aux = list(map(int, str.split(input())))
-    k = aux[0]
-    x = aux[1] - 1
-
+    k, x = map(int, str.split(input()))
+    x -= 1
     c = 1
     s = A[x]
-
-    for j in range(x+1, min(x+k, n)):
-        print (c)
-        c *= (k - (j-x))
-        c /= (j-x+1)
-        s += c * A[j]
-
+    end = min(k, n - x - 1)
+    for j in range(end):
+        c *= k - j
+        c //= j + 1
+        print(c)
+        if c & 1:
+            print("ok")
+            s ^= A[x + j + 1]
     print(s)
