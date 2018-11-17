@@ -1,16 +1,17 @@
 t = int(input())
 
 for _ in range(t):
-    n, m, x, y = map(int, str.split(input()))
+    n, m, x, y = list(map(int, str.split(input())))
 
     s = 0
-
+    cst = n+ m
+    cst2 = n*m
     for i in range(1, n+1):
         for j in range(1, m+1):
             if i==x and j==y:
                 continue
-            aux = n + m + min(n - i, m - j) + min(i, j) + min(j-1, n-i) + min(i-1, m - j) - 2
-            aux = n * m - aux
+            aux = cst + min(n - i, m - j) + min(i,j) + min(j-1, n-i) + min(i-1, m - j) - 2
+            aux = cst2 - aux
             if i == x:
                 if j > y:
                     aux += y - 1
