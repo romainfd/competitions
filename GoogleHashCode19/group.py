@@ -102,5 +102,5 @@ def grouper(v2h, output_suffix="_bis"):
             file.write(image.to_txt())
 
 
-grouper(v2h_naive, output_suffix="_naive")
-# grouper(v2h_greedy, output_suffix="_greedy")
+# grouper(v2h_naive, output_suffix="_naive")
+grouper(v2h_greedy, output_suffix="_greedy")
