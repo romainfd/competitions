@@ -23,7 +23,7 @@ for i in range(n):
     ids[i] = photo[0]
     tags[i] = photo[3:]
 
-graph = np.zeros((n,n))
+graph = np.zeros((n, n))
 for i in range(n):
     for j in range(i+1, n):
         interest = compute_interest(tags[i], tags[j])
