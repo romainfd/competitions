@@ -1,4 +1,0 @@
-3
-0 H 3 cat beach sun
-1,2 H 3 selfie smile garden
-3 H 2 garden cat
