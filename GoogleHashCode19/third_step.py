@@ -1,9 +1,6 @@
 import os
 import numpy as np
 from tqdm import tqdm
-from GoogleHashCode19.group import *
-
-grouper(v2h_naive, output_suffix="_bis")
 
 def compute_interest(tag1, tag2):
     """
@@ -41,8 +38,6 @@ for i in tqdm(range(n)):
         graph[i][j] = interest
         graph[j][i] = interest
 
-print(ids)
-
 
 def glouton_hamiltonien(dist_matrix, dic):
     """
@@ -77,6 +72,7 @@ def glouton_hamiltonien(dist_matrix, dic):
             adj_lists[y] = []
         adj_lists[y].append(x)
 
+    print("adj_list_ok")
     deg_one = np.argwhere(degree==1)
 
     to_process = set()
@@ -86,24 +82,30 @@ def glouton_hamiltonien(dist_matrix, dic):
             to_process.add(x)
 
     for i in deg_one:
+        i = i[0]
+        print(i)
         if i in processed:
             continue
         cycle.append(i)
         processed.add(i)
         x = adj_lists[i][0]
-        while degree[x] > 1:
+        while degree[x] > 1 and x not in processed:
             cycle.append(x)
             processed.add(x)
             y = adj_lists[x][0] if adj_lists[x][0] != x else adj_lists[x][1]
             x = y
-        cycle.append(x)
-        processed.add(x)
+        if x not in processed:
+            cycle.append(x)
+            processed.add(x)
+
+    print("deg_one over")
 
     to_process.difference_update(processed)
     while len(to_process) > 0:
         i = to_process.pop()
         cycle.append(i)
         processed.add(i)
+        print(i)
         x = adj_lists[i][0]
         while x not in processed:
             cycle.append(x)
@@ -115,10 +117,12 @@ def glouton_hamiltonien(dist_matrix, dic):
     write_output(cycle, dic)
 
 def write_output(cycle, dic):
-    example = os.environ['NB']
+    example = 3
 
-    with open("ex{}{}.txt".format(example, "output"), 'w') as file:
+    with open("ex{}{}.txt".format(example, "_output"), 'w') as file:
         file.write("{}\n".format(len(cycle)))
         for x in cycle:
             file.write(dic[x])
+            file.write('\n')
 
+glouton_hamiltonien(graph, ids)
