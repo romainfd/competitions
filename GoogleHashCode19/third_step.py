@@ -18,7 +18,7 @@ def compute_interest(tag1, tag2):
         unique2 += not(tag in inter)
     return min(len(inter), unique1, unique2)
 
-n = int(input())
+n = int(input()) // 8
 ids = [0]*n
 tags = [0]*n
 for i in tqdm(range(n)):
@@ -33,7 +33,7 @@ for i in tqdm(range(n)):
 
 graph = np.zeros((n,n), dtype = int)
 for i in tqdm(range(n)):
-    for j in tqdm(range(i+1, n)):
+    for j in range(i+1, n):
         interest = compute_interest(tags[i], tags[j])
         graph[i][j] = interest
         graph[j][i] = interest
@@ -117,7 +117,7 @@ def glouton_hamiltonien(dist_matrix, dic):
     write_output(cycle, dic)
 
 def write_output(cycle, dic):
-    example = 3
+    example = 2
 
     with open("ex{}{}.txt".format(example, "_output"), 'w') as file:
         file.write("{}\n".format(len(cycle)))
