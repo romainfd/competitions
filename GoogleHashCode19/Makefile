@@ -1,5 +1,5 @@
 all: *.py *.txt
-	python pb$(PROG).py < pb$(PROG).txt
+	python $(PROG).py < ex$(NB).txt
 
 create:
 	touch pb$(PROG).py
