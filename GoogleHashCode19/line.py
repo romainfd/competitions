@@ -46,7 +46,7 @@ def collect_data():
     return images
 
 
-def line(images, delta=3000):
+def line(images, delta=100):
     """
     Linearly group the pictures: takes delta random images and make the best move from the last image
     :param images: List of V images
@@ -57,6 +57,7 @@ def line(images, delta=3000):
     current_image = images.pop()
     slideshow = [current_image.to_txt()]
     nb = len(images)
+    total_score = 0
     for _ in tqdm(range(nb)):
         max_score = -1
         best_next = None
@@ -70,6 +71,8 @@ def line(images, delta=3000):
         images.remove(best_next)
         slideshow.append(best_next.to_txt())
         current_image = best_next
+        total_score += max_score
+    print(total_score)
     return slideshow
 
 

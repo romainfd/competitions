@@ -1,4 +1,5 @@
 import numpy as np
+from tqdm import tqdm
 def compute_interest(tag1, tag2):
     """
     it computes the interest factor between two consecutive images
@@ -18,14 +19,21 @@ def compute_interest(tag1, tag2):
 n = int(input())
 ids = [0]*n
 tags = [0]*n
-for i in range(n):
+for i in tqdm(range(n)):
     photo = list(str.split(input(), " "))
-    ids[i] = photo[0]
+    tmp = str.split(photo[0], ",")
+    if len(tmp)>1:
+        id = tmp[0]+" "+tmp[1]
+    else:
+        id = photo[0]
+    ids[i] = id
     tags[i] = photo[3:]
 
-graph = np.zeros((n, n))
-for i in range(n):
-    for j in range(i+1, n):
+graph = np.zeros((n,n), dtype = int)
+for i in tqdm(range(n)):
+    for j in tqdm(range(i+1, n)):
         interest = compute_interest(tags[i], tags[j])
         graph[i][j] = interest
         graph[j][i] = interest
+
+print(ids)
