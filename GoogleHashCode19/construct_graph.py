@@ -20,7 +20,11 @@ ids = [0]*n
 tags = [0]*n
 for i in range(n):
     photo = list(str.split(input(), " "))
-    ids[i] = photo[0]
+    if len(photo[0])>1:
+        id = photo[0][0]+" "+photo[0][2]
+    else:
+        id = photo[0]
+    ids[i] = id
     tags[i] = photo[3:]
 
 graph = np.zeros((n,n))
