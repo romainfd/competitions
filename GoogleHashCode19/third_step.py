@@ -1,4 +1,5 @@
 import numpy as np
+import os
 
 def glouton_hamiltonien(dist_matrix, dic):
     """
@@ -8,17 +9,20 @@ def glouton_hamiltonien(dist_matrix, dic):
     """
     n = dist_matrix.shape[0]
     degree = np.zeros(n, dtype = int)
-    new_ind = np.argsort(np.reshape(dist_matrix, (1, n*n)))[0][::-1]
+    mat = np.reshape(dist_matrix, (1, n*n))[0]
+    print(mat)
+    new_ind = np.argsort(mat)[::-1]
+    print(new_ind)
     selected_edges = set()
     i = 0
-    while i < n*n and new_ind[i] > 0:
+    while i < n*n and mat[new_ind[i]] > 0:
         x, y = new_ind[i] // n, new_ind[i] % n
         if degree[x] < 2 and degree[y] < 2 and (min(x,y), max(x,y)) not in selected_edges:
             degree[x] += 1
             degree[y] += 1
             selected_edges.add((min(x,y), max(x,y)))
         i += 1
-
+    print(selected_edges)
     cycle = []
 
     adj_lists = {}
@@ -35,7 +39,7 @@ def glouton_hamiltonien(dist_matrix, dic):
     to_process = set()
     processed = set()
     for x in range(n):
-        if degree[x] >= 0:
+        if degree[x] > 0:
             to_process.add(x)
 
     for i in deg_one:
@@ -53,7 +57,6 @@ def glouton_hamiltonien(dist_matrix, dic):
         processed.add(x)
 
     to_process.difference_update(processed)
-
     while len(to_process) > 0:
         i = to_process.pop()
         cycle.append(i)
@@ -66,6 +69,13 @@ def glouton_hamiltonien(dist_matrix, dic):
             x = y
         to_process.difference_update(processed)
 
-    return cycle
+    write_output(cycle, dic)
 
+def write_output(cycle, dic):
+    example = os.environ['NB']
+
+    with open("ex{}{}.txt".format(example, "output"), 'w') as file:
+        file.write("{}\n".format(len(cycle)))
+        for x in cycle:
+            file.write(dic[x])
 
