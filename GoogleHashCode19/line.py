@@ -46,7 +46,7 @@ def collect_data():
     return images
 
 
-def line(images, delta=100):
+def line(images, delta=10000):
     """
     Linearly group the pictures: takes delta random images and make the best move from the last image
     :param images: List of V images
