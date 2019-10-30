@@ -18,7 +18,7 @@ def compute_interest(tag1, tag2):
         unique2 += not(tag in inter)
     return min(len(inter), unique1, unique2)
 
-n = int(input()) // 8
+n = int(input())
 ids = [0]*n
 tags = [0]*n
 for i in tqdm(range(n)):
@@ -43,6 +43,7 @@ def glouton_hamiltonien(dist_matrix, dic):
     """
     Select edges with biggest weight and sort them in order to get a cycle
     :param dist_matrix: Distance matrix
+    :param dic: array matching index of the matrix to index of original images
     :return: Text file corresponding to slideshow
     """
     n = dist_matrix.shape[0]
@@ -98,8 +99,6 @@ def glouton_hamiltonien(dist_matrix, dic):
             cycle.append(x)
             processed.add(x)
 
-    print("deg_one over")
-
     to_process.difference_update(processed)
     while len(to_process) > 0:
         i = to_process.pop()
@@ -117,7 +116,7 @@ def glouton_hamiltonien(dist_matrix, dic):
     write_output(cycle, dic)
 
 def write_output(cycle, dic):
-    example = 2
+    example = os.environ['NB']
 
     with open("ex{}{}.txt".format(example, "_output"), 'w') as file:
         file.write("{}\n".format(len(cycle)))
