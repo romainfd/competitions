@@ -1,0 +1,1 @@
+Running `PROG=nom_prog make all` will create the result directory `results/nom_prog` and fill it with the results of `nom_prog.py` on each input file
