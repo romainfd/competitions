@@ -10,4 +10,8 @@ for i in range(L):
         'rate': rate,
         'books': books
     })
-print(libraries)
+
+print(L)
+for l in range(L):
+    print(l, libraries[l]['nb'])
+    print(" ".join(map(str, libraries[l]['books'])))
