@@ -1,11 +1,13 @@
 import numpy as np
 
-m, n = map(int, str.split(input()))
+m, _ = map(int, str.split(input()))
 
-l = np.array(list(map(int, str.split(input()))))
+slices = np.array(list(map(int, str.split(input()))))
 
 
-def greedy_max(pizzas, sup, ind_max, selected):
+def greedy_max(pizzas, sup):
+    ind_max = len(pizzas)
+    selected = []
     ind = len(pizzas[pizzas <= sup][:ind_max]) - 1
     while ind >= 0:
         selected.append(ind)
@@ -15,7 +17,7 @@ def greedy_max(pizzas, sup, ind_max, selected):
     return selected
 
 
-output = greedy_max(l, m, n, [])
+output = greedy_max(slices, m)
 
 print(len(output))
 print(" ".join(map(str, np.sort(output))))
