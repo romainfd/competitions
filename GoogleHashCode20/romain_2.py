@@ -33,6 +33,20 @@ def output(lib_data):
         print(" ".join(map(str, l_book_ids)))
 
 
+# Format and write to file
+def write(lib_data):
+    lib_data = list(filter(
+        lambda lib_datum: lib_datum[1] > 0,
+        lib_data
+    ))
+    with open("results/" + os.environ['PROG'] + "/" + os.environ['NB'] + "_update.txt", "w+") as result_file:
+        result_file.write(f"{len(lib_data)}\n")
+        for l_id, nb, l_book_ids in lib_data:
+            result_file.write(f"{l_id} {nb}\n")
+            result_file.write(" ".join(map(str, l_book_ids)))
+            result_file.write("\n")
+
+
 # Score a library distribution
 def scorer(lib_data):
     total_score = 0
@@ -85,7 +99,7 @@ def take_books_in_order(scanned_books, nb_days, book_ids, l_id):
 
 
 # COMPUTE LIBRARY DISTRIBUTION
-NB_LOOPS_1MIN = np.array([0, 50, 11, 32, 3.4, 135, 240])
+NB_LOOPS_1MIN = np.array([0, 50, 11, 32, 2, 135, 240])
 
 top_score = 0
 top_lib_data = []
@@ -105,6 +119,7 @@ for i in tqdm(range(int(10 * NB_LOOPS_1MIN[int(os.environ['NB'])]))):
     if score > top_score:
         top_score = score
         top_lib_data = lib_data
+        write(lib_data)
 
 # print(top_score)
 output(top_lib_data)
