@@ -1,11 +1,17 @@
 import json
+import os
+from pathlib import Path
 
 from stucture import Dataset
 
 
+def get_project_root() -> Path:
+    return Path(__file__).parent  # nb of .parent calls depends on file location
+
+
 def load_dataset(i):
     """ Load and return Dataset nb i """
-    with open(f'data/{i:d}.json') as f:
+    with open(os.path.join(get_project_root(), f'data/{i:d}.json')) as f:
         data = json.load(f)
         quotas = data['quotas']
         workers = data['workers']
