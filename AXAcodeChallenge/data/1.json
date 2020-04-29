@@ -1,0 +1,52 @@
+{
+    "quotas": 
+    {
+        "medical":2,
+        "transport":1
+    },
+    "workers":{
+        "Chloe Carbonneau": {
+            "domain" : "medical",
+            "morningOptions" : [
+                [101, 111],
+                [102, 112]
+            ],
+            "eveningOptions" : [
+                [211, 201],
+                [212, 202]
+            ]
+        },
+        "Gregory Bourcier": {
+            "domain" : "medical",
+            "morningOptions" : [
+                [102, 112],
+                [103, 113]
+            ],
+            "eveningOptions" : [
+                [211, 201]
+            ]
+        },
+        "Coline Schaeffer": {
+            "domain" : "transport",
+            "morningOptions" : [
+                [102, 113, 112],
+                [101, 102, 113]
+            ],
+            "eveningOptions" : [
+                [211]
+            ]
+        },
+        "Jean-Baptiste Charrier": {
+            "domain" : "medical",
+            "morningOptions" : [
+                [101, 111],
+                [102, 112],
+                [103, 113]
+            ],
+            "eveningOptions" : [
+                [211, 201],
+                [212, 201]
+            ]
+        }
+    }
+}
