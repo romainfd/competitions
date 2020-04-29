@@ -23,7 +23,7 @@ class Worker(object):
                 dic_evening[transport_id].add_user(self.id)
 
     def __repr__(self):
-        return f'Dataset({str(self.id)})'
+        return str(self.id)
 
 
 class Transport(object):
@@ -54,4 +54,4 @@ class Dataset(object):
                 self.transports_morning, self.transports_evening)
 
     def __repr__(self):
-        return str(self.id)
+        return f'Dataset({str(self.id)})'
