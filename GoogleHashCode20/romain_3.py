@@ -1,6 +1,7 @@
 import numpy as np; np.random.seed(21)
 from tqdm import tqdm
 import os
+import pandas as pd
 
 
 # INPUT CONSTRUCTION
@@ -16,6 +17,17 @@ for _ in range(L):
         'rate': rate,
         'books': books
     })
+
+lib_pd = pd.DataFrame(libraries)
+lib_pd['scores'] = lib_pd['books'].apply(lambda x: score(x, scores))
+lib_pd['mean_scores'] = lib_pd['books'].apply(np.mean)
+lib_pd['sum_scores'] = lib_pd['scores'].apply(np.sum)
+lib_pd['sum_scores_norm'] = (lib_pd['sum_scores'] - lib_pd['sum_scores'].mean()) / lib_pd['sum_scores'].std()
+lib_pd['rate_norm'] = (lib_pd['rate'] - lib_pd['rate'].mean()) / lib_pd['rate'].std()
+lib_pd['tps_norm'] = (lib_pd['tps'] - lib_pd['tps'].mean()) / lib_pd['tps'].std()
+lib_pd['lib_scores'] = lib_pd['rate_norm'] * lib_pd['sum_scores_norm'] / lib_pd['tps_norm']
+lib_pd = lib_pd.sort_values(by='lib_scores', ascending=False)
+permutation = np.array(list(lib_pd.index))
 
 
 # HELPER FUNCTIONS
@@ -103,28 +115,26 @@ NB_LOOPS_1MIN = np.array([0, 50, 130, 26, 1.75, 360, 333])
 
 top_score = 0
 top_lib_data = []
-for i in tqdm(range(int(60 * NB_LOOPS_1MIN[int(os.environ['NB'])]))):
-    permutation = np.random.permutation(L)
-    lib_data = []
-    scanned_books = set()
-    remaining_days = D
-    for l in range(L):
-        l_id = permutation[l]
-        remaining_days -= libraries[l_id]['tps']
-        nb = libraries[l_id]['nb']
-        # Greedy approach of sorting
-        books_to_scan_through = sorted(
-            libraries[l_id]['books'],
-            key=lambda book_id: scores[book_id],
-            reverse=True
-        )
-        l_book_ids, scanned_books = take_books_in_order(scanned_books, remaining_days, books_to_scan_through, l_id)
-        lib_data.append([l_id, len(l_book_ids), l_book_ids])
-    score = scorer(lib_data)
-    if score > top_score:
-        top_score = score
-        top_lib_data = lib_data
-        write(lib_data)
+lib_data = []
+scanned_books = set()
+remaining_days = D
+for l in range(L):
+    l_id = permutation[l]
+    remaining_days -= libraries[l_id]['tps']
+    nb = libraries[l_id]['nb']
+    # Greedy approach of sorting
+    books_to_scan_through = sorted(
+        libraries[l_id]['books'],
+        key=lambda book_id: scores[book_id],
+        reverse=True
+    )
+    l_book_ids, scanned_books = take_books_in_order(scanned_books, remaining_days, books_to_scan_through, l_id)
+    lib_data.append([l_id, len(l_book_ids), l_book_ids])
+score = scorer(lib_data)
+if score > top_score:
+    top_score = score
+    top_lib_data = lib_data
+    write(lib_data)
 
 # print(top_score)
 output(top_lib_data)
