@@ -1,0 +1,27 @@
+Structure de données
+--------------------
+
+Class Travailleur
+
+	Attributs :
+	-----------
+	- nom (str)
+	- domaine_pro (str)
+	- options_aller (liste d'int)
+	- options_retour (liste d'int)
+
+	Méthodes :
+	---------- 
+	- score
+
+Class Transport
+	Attributs : 
+	-----------
+	- utilisateurs (liste de Travailleur)
+
+Class Dataset
+	Attributs :
+	-----------
+	- travailleurs (liste de Travailleur)
+	- transports (liste de Transport)
+	- quotas (dictionnaire : {domaine_pro (str) : quota (int)} )
