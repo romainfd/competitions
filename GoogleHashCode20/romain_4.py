@@ -98,34 +98,50 @@ def take_books_in_order(scanned_books, nb_days, book_ids, l_id):
     return books_taken, scanned_books
 
 
-# COMPUTE LIBRARY DISTRIBUTION
-NB_LOOPS_1MIN = np.array([0, 50, 130, 26, 1.75, 360, 333])
+def library_scores_(libraries, day, processed_libs):
+    lib_scores = []
+    for l_id, lib in enumerate(libraries):
+        if l_id in processed_libs:
+            lib_scores.append(0)
+        else:
+            books_ordered = sorted(
+                lib['books'],
+                key=lambda book_id: scores[book_id],
+                reverse=True
+            )
+            lib_scores.append(sum(books_ordered[: (D - day - lib['tps']) * lib['rate']]))
+    return lib_scores
 
-top_score = 0
-top_lib_data = []
-for i in tqdm(range(int(60 * NB_LOOPS_1MIN[int(os.environ['NB'])]))):
-    permutation = np.random.permutation(L)
-    lib_data = []
-    scanned_books = set()
-    remaining_days = D
-    for l in range(L):
-        l_id = permutation[l]
-        remaining_days -= libraries[l_id]['tps']
-        nb = libraries[l_id]['nb']
-        # Greedy approach of sorting
-        books_to_scan_through = sorted(
-            libraries[l_id]['books'],
-            key=lambda book_id: scores[book_id],
-            reverse=True
-        )
-        l_book_ids, scanned_books = take_books_in_order(scanned_books, remaining_days, books_to_scan_through, l_id)
-        lib_data.append([l_id, len(l_book_ids), l_book_ids])
-    score = scorer(lib_data)
-    if score > top_score:
-        top_score = score
-        top_lib_data = lib_data
-        write(lib_data)
+
+# returns the sorted list of libraries
+def sort_(library_scores):
+    return np.argsort(library_scores)[::-1]
+
+
+# COMPUTE LIBRARY DISTRIBUTION
+library_scores = library_scores_(libraries, 0, set())
+sorted_libraries = sort_(library_scores)
+lib_data = []
+scanned_books = set()
+processed_libraries = set()
+remaining_days = D
+for l in tqdm(range(L)):
+    l_id = sorted_libraries[0]
+    remaining_days -= libraries[l_id]['tps']
+    nb = libraries[l_id]['nb']
+    # Greedy approach of sorting
+    books_to_scan_through = sorted(
+        libraries[l_id]['books'],
+        key=lambda book_id: scores[book_id],
+        reverse=True
+    )
+    l_book_ids, scanned_books = take_books_in_order(scanned_books, remaining_days, books_to_scan_through, l_id)
+    lib_data.append([l_id, len(l_book_ids), l_book_ids])
+    # Update library ordering
+    processed_libraries.add(l_id)
+    library_scores = library_scores_(libraries, D - remaining_days, processed_libraries)
+    sorted_libraries = sort_(library_scores)
 
 # print(top_score)
-output(top_lib_data)
+output(lib_data)
 
