@@ -70,7 +70,11 @@ class NpEncoder(json.JSONEncoder):
             return super(NpEncoder, self).default(obj)
 
 
-def write_solutions(solutions):
+def write_solution(solution, i, prefix=''):
+    with open(os.path.join(get_project_root(), f'solution/{prefix}_{i:d}.json'), 'w') as file:
+        file.write(json.dumps(solution, cls=NpEncoder))
+
+
+def write_solutions(solutions, prefix=''):
     for i, solution in enumerate(solutions):
-        with open(os.path.join(get_project_root(), f'solution/{i + 1:d}.json'), 'w') as file:
-            file.write(json.dumps(solution, cls=NpEncoder))
+        write_solution(solution, i + 1, prefix)
