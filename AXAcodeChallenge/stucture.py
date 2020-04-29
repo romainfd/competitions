@@ -36,6 +36,10 @@ class Transport(object):
     def add_user(self, user_id):
         self.potential_users_id.append(user_id)
 
+    @property
+    def score(self):
+        return len(self.potential_users_id)
+
     def __repr__(self):
         return str(self.id)
 
