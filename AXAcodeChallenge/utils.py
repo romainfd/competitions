@@ -58,5 +58,5 @@ def get_score(solution, dataset):
 
 def write_solutions(solutions):
     for i, solution in enumerate(solutions):
-        with open(os.path.join(get_project_root(), f'solution/{i+1:d}.txt', 'w')) as file:
+        with open(os.path.join(get_project_root(), f'solution/{i+1:d}.txt'), 'w') as file:
             file.write(json.dumps(solution))
