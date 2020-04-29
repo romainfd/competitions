@@ -7,8 +7,8 @@ Class Worker
 	-----------
 	- id (str)
 	- domain (str)
-	- morning_options (liste d'int)
-	- evening_options (liste d'int)
+	- morning_options (List[List[transport_id]])
+	- evening_options (List[List[transport_id]])
 
 	Méthodes :
 	---------- 
