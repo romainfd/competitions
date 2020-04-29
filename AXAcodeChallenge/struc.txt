@@ -25,6 +25,7 @@ Class Dataset
 	Attributs :
 	-----------
 	- id (nom 1, 2 ... 6)
+	- self.domain_worker_dic (dict[domain (str): set(workers_id)]
 	- workers (liste des worker)
 	- transports_morning (dict[transport_id (int): Transport])
 	- transport_evening (dict[transport_id (int): Transport])

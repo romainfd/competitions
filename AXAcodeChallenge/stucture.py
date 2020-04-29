@@ -49,13 +49,18 @@ class Dataset(object):
     def __init__(self, id_nb, quotas, workers):
         self.id = id_nb
         self.quotas = quotas
-        self.workers = []
+        self.domain_worker_dic = {}
+        self.workers = {}
         self.transports_morning = {}
         self.transports_evening = {}
         for worker_id, worker_info in workers.items():
-            self.workers.append(Worker(worker_id, worker_info))
-            self.workers[-1].add_transport_to_dic(
-                self.transports_morning, self.transports_evening)
+            worker = Worker(worker_id, worker_info)
+            domain = worker.domain
+            self.workers[worker_id] = worker
+            if domain not in self.domain_worker_dic:
+                self.domain_worker_dic[domain] = set()
+            self.domain_worker_dic[domain].add(worker.id)
+            worker.add_transport_to_dic(self.transports_morning, self.transports_evening)
 
     def __repr__(self):
         return f'Dataset({str(self.id)})'
