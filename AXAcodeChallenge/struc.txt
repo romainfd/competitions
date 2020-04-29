@@ -1,27 +1,31 @@
 Structure de données
 --------------------
 
-Class Travailleur
+Class Worker
 
 	Attributs :
 	-----------
-	- nom (str)
-	- domaine_pro (str)
-	- options_aller (liste d'int)
-	- options_retour (liste d'int)
+	- id (str)
+	- domain (str)
+	- morning_options (liste d'int)
+	- evening_options (liste d'int)
 
 	Méthodes :
 	---------- 
 	- score
 
 Class Transport
-	Attributs : 
+	Attributs :
 	-----------
-	- utilisateurs (liste de Travailleur)
+	- id (int)
+	- is_morning (est-ce matin / soir)
+	- potential_users_id (id des Travailleurs )
 
 Class Dataset
 	Attributs :
 	-----------
-	- travailleurs (liste de Travailleur)
-	- transports (liste de Transport)
+	- id (nom 1, 2 ... 6)
+	- workers (liste des worker)
+	- transports_morning (dict[transport_id (int): Transport])
+	- transport_evening (dict[transport_id (int): Transport])
 	- quotas (dictionnaire : {domaine_pro (str) : quota (int)} )
