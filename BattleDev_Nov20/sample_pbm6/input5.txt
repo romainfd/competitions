@@ -1,0 +1,11 @@
+10
+abdbc abcbd
+bccbd bbcdc
+badce ebcad
+abece ebcea
+cddcd dccdd
+babba abbab
+ddccd dcdcd
+bcabd cabdb
+dcceb cbecd
+bceae bacee
