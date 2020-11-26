@@ -2,6 +2,8 @@ import json
 import os
 from pathlib import Path
 
+import numpy as np
+
 from stucture import Dataset
 
 
@@ -56,7 +58,24 @@ def get_score(solution, dataset):
     return sum(v * (v - 1) for v in peoplePerTrain.values())
 
 
-def write_solutions(solutions):
+class NpEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, np.integer):
+            return int(obj)
+        elif isinstance(obj, np.floating):
+            return float(obj)
+        elif isinstance(obj, np.ndarray):
+            return obj.tolist()
+        else:
+            return super(NpEncoder, self).default(obj)
+
+
+def write_solution(solution, i, prefix=''):
+    with open(os.path.join(get_project_root(), f'solution/{prefix}_{i:d}.json'), 'w') as file:
+        file.write(json.dumps(solution, cls=NpEncoder))
+
+
+def write_solutions(solutions, prefix=''):
     for i, solution in enumerate(solutions):
         with open(os.path.join(get_project_root(), f'solution/{i+1:d}.txt'), 'w') as file:
             file.write(json.dumps(solution))
